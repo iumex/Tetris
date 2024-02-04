@@ -20,6 +20,10 @@ void DrawTetromino(const int offsetStartX, const int offsetStartY, int currentTe
 // File checkCollision.c
 int CheckCollision(const int currentTetrominoX, const int currentTetrominoY, const int* tetromino);
 
+// File input.c
+void Input(int* currentTetrominoX, int* currentTetrominoY, int* currentTetrominoType, int* currentTetrominoRotation, float* tetrominoFallingTimer, 
+            float tetrominoFallingStart, int tetrominoStartX, int tetrominoStartY, int* currentTetrominoColor);
+
 // File lineCheck.c
 void ResetLines(int startLineY);
 

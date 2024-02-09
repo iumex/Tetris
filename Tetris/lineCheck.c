@@ -6,6 +6,8 @@ extern int lineCounter;
 extern int increaseSpeedCounter;
 extern int lines;
 extern int score;
+extern int line;
+
 
 // Function to let a line to fall down when the line below is erased
 void ResetLines(int startLineY)

@@ -27,8 +27,10 @@ void Input(int* currentTetrominoX, int* currentTetrominoY, int* currentTetromino
 // File lineCheck.c
 void ResetLines(int startLineY);
 
-void IncreaseLinesAndSpeed();
+int CheckRow(int y);
 
-void DeleteLines();
+int Checklines();
+
+void IncreaseLinesAndSpeed();
 
 int StopGame();

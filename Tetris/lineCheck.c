@@ -26,6 +26,37 @@ void ResetLines(int startLineY)
     }
 }
 
+// Function to check if a row is complete
+int CheckRow(int y)
+{
+    
+    for(int x = 1; x < STAGE_WIDTH - 1; x++)
+    {
+        const int offset = y * STAGE_WIDTH + x;
+
+        if(stage[offset] == 0)
+        {
+            return 0;
+        }        
+    }
+    
+    return 1;
+}
+
+// Function to check on the entire stage if a row is complete
+int Checklines()
+{
+    for(int y = 0; y < STAGE_HEIGHT - 1; y++)
+    {
+        line = y;
+
+       if(CheckRow(y))
+       {      
+            return 1;            
+       }
+    }
+    return 0;
+}
 
 // Function to increase the number of completed lines and speed of the falling tetrominos
 void IncreaseLinesAndSpeed()
@@ -39,42 +70,6 @@ void IncreaseLinesAndSpeed()
 }
 
 
-
-// Function to Delete a line when completed
-void DeleteLines()
-{
-
-    for(int y = 0; y < STAGE_HEIGHT - 1; y++)
-    {
-        int checkline = 1;
-
-        for(int x = 1; x < STAGE_WIDTH - 1; x++)
-        {
-            const int offset = y * STAGE_WIDTH + x;
-
-            if(stage[offset] == 0)
-            {
-                checkline = 0;
-                break;
-            }
-        }
-
-        if(checkline)
-        {
-            const int offset = y * STAGE_WIDTH + 1;
-
-            memset(stage + offset, 0, (STAGE_WIDTH - 2) * (sizeof(int)));
-
-            Sound clear = LoadSound("sounds/clear.wav");
-
-            PlaySound(clear);
-
-            IncreaseLinesAndSpeed();
-
-            ResetLines(y);
-        }
-    }
-}
 
 // Function to close the game if the stage is filled up to the top
 int StopGame()

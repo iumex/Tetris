@@ -29,7 +29,6 @@ void ResetLines(int startLineY)
 // Function to check if a row is complete
 int CheckRow(int y)
 {
-    
     for(int x = 1; x < STAGE_WIDTH - 1; x++)
     {
         const int offset = y * STAGE_WIDTH + x;

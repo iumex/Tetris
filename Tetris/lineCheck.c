@@ -6,8 +6,9 @@ extern int lineCounter;
 extern int increaseSpeedCounter;
 extern int lines;
 extern int score;
-extern int line;
 
+extern float checkLineTimer;
+extern float checkLineStart;
 
 // Function to let a line to fall down when the line below is erased
 void ResetLines(int startLineY)
@@ -28,35 +29,58 @@ void ResetLines(int startLineY)
     }
 }
 
-// Function to check if a row is complete
-int CheckRow(int y)
-{
-    for(int x = 1; x < STAGE_WIDTH - 1; x++)
-    {
-        const int offset = y * STAGE_WIDTH + x;
-
-        if(stage[offset] == 0)
-        {
-            return 0;
-        }        
-    }
-    
-    return 1;
-}
-
-// Function to check on the entire stage if a row is complete
-int Checklines()
+// Function to delete a line when it gets full
+void DeleteLines()
 {
     for(int y = 0; y < STAGE_HEIGHT - 1; y++)
     {
-        line = y;
+        int checkLine = 1;
 
-       if(CheckRow(y))
-       {      
-            return 1;            
-       }
+        for(int x = 1; x < STAGE_WIDTH - 1; x++)
+        {
+            const int offset = y * STAGE_WIDTH + x;
+
+            if(stage[offset] == 0)
+            {
+                checkLine = 0;
+                break;
+            }
+        }
+
+        // If a line on the stage is full, at first it becomes white and, when the timer runs out, it disappears and then the line above falls down         
+        if(checkLine)
+        {
+            const int offset = y * STAGE_WIDTH + 1;
+
+            for(int x = 0; x < STAGE_WIDTH - 2; x++)
+            {
+                stage[x + offset] = 1;
+            }
+
+            checkLineTimer -= GetFrameTime();
+
+            if(checkLineTimer <= 0)
+            {
+                const int offset = y * STAGE_WIDTH + 1;
+
+                for(int x = 0; x < STAGE_WIDTH - 2; x++)
+                {                
+                    stage[x + offset] = 0;                              
+                }
+
+                checkLineTimer = checkLineStart;
+
+                Sound clear = LoadSound("sounds/clear.wav");
+
+                PlaySound(clear);
+
+                IncreaseLinesAndSpeed();
+
+                ResetLines(y);
+            }                       
+                        
+        }
     }
-    return 0;
 }
 
 // Function to increase the number of completed lines and speed of the falling tetrominos

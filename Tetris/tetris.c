@@ -8,6 +8,10 @@ int lines = 0;
 int score = 0;
 int line = 0;
 
+// Timer for the tilt of the line if it gets full
+float checkLineTimer = 0.3;
+float checkLineStart = 0.3;
+
 // This is our stage
 int stage[] = 
 {
@@ -319,38 +323,9 @@ int main(int argc, char** argv)
         // Timer decreasing by the delta time multiplied by the speed increasing when a line is completed
         tetrominoFallingTimer -= GetFrameTime() * increaseSpeedCounter;
 
-        // If a line on the stage is full, at first it becomes white and, when the timer runs out, it disappears and then the line above falls down 
-        if(Checklines())
-        {
-            const int offset = line * STAGE_WIDTH + 1;
+        // If a line on the stage is full, at first it becomes white and, when the timer runs out, it disappears and then the line above falls takes its place 
+        DeleteLines();
 
-            for(int x = 0; x < STAGE_WIDTH - 2; x++)
-            {                
-                stage[x + offset] = 1;
-            }
-
-            checkLineTimer -= GetFrameTime();
-
-            if(checkLineTimer <= 0)
-            {
-                const int offset = line * STAGE_WIDTH + 1;
-
-                for(int x = 0; x < STAGE_WIDTH - 2; x++)
-                {                
-                    stage[x + offset] = 0;                              
-                }
-
-                checkLineTimer = checkLineStart;
-
-                Sound clear = LoadSound("sounds/clear.wav");
-
-                PlaySound(clear);
-
-                IncreaseLinesAndSpeed();
-                ResetLines(line);
-            }           
-
-        }
         
         Input(&currentTetrominoX, &currentTetrominoY, &currentTetrominoType, &currentTetrominoRotation, &tetrominoFallingTimer,
                 tetrominoFallingStart, tetrominoStartX, tetrominoStartY,&currentTetrominoColor);

@@ -27,9 +27,7 @@ void Input(int* currentTetrominoX, int* currentTetrominoY, int* currentTetromino
 // File lineCheck.c
 void ResetLines(int startLineY);
 
-int CheckRow(int y);
-
-int Checklines();
+void DeleteLines();
 
 void IncreaseLinesAndSpeed();
 
